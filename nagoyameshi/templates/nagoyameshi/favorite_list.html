@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}お気に入り{% endblock %}
+{% block content %}
+<h1>お気に入り一覧</h1>
+<a href="{% url 'mypage' %}">戻る</a>
+
+<div class="row">
+    {% for favorite in object_list %}
+    <div class="col-4 border p-2">
+        <a href="{% url 'detail' favorite.restaurant.id %}" >
+            <h3>{{ favorite.restaurant }}</h3>
+            <img src="{{ favorite.restaurant.image.url }}" style="width:180px; height:auto;">
+        </a>
+
+        <form action="{% url 'favorite' %}" method="post" class="text-end">
+            {% csrf_token %}
+            <input type="hidden" name="restaurant" value="{{ favorite.restaurant.id }}">
+            <input type="hidden" name="user" value="{{ request.user.id }}">
+            <input class="btn btn-danger" type="submit" value="お気に入り登録解除">
+        </form>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
