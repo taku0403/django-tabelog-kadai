@@ -63,6 +63,8 @@ class RestaurantDetailView(DetailView):
         # 該当店舗のレビューだけ表示
         context["reviews"] = Review.objects.filter(restaurant=kwargs["object"].id)
 
+        context["is_premium"] = PremiumUser.objects.filter(user=self.request.user).exists()
+
          # ログインをしているのかチェック。
         if self.request.user.is_authenticated:
             # 店舗のお気に入り積みかチェック
@@ -271,6 +273,9 @@ class MypageView(TemplateView):
         return context
     
 class MypageUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "nagoyameshi/mypage_update.html")
+
     def post(self, request, *args, **kwargs):
         # 編集を受け付ける
         form = UserForm(request.POST, instance=request.user)

@@ -8,6 +8,7 @@
 <div>{{ restaurant.description }}</div>
 
 {# お気に入り登録ボタン #}
+{% if is_premium %}
 <form action="{% url 'favorite' %}" method="post">
     {% csrf_token %}
     <input type="hidden" name="restaurant" value="{{ restaurant.id }}">
@@ -19,10 +20,12 @@
     <input class="btn btn-outline-success" type="submit" value="お気に入り登録する">
     {% endif %}
 </form>
+{% endif %}
 
 <table class="table">
     <thead>
         <tr>
+            <th>カテゴリ</th>
             <th>営業時間</th>
             <th>価格帯</th>
             <th>所在地</th>
@@ -32,6 +35,7 @@
     </thead>
     <tbody>
         <tr>
+            <td>{{ restaurant.category.name }}</td>
             <td>{{ restaurant.start_at }} ~ {{ restaurant.end_at }}</td>
             <td>{{ restaurant.cost }} 円</td>
             <td>{{ restaurant.post_code }} {{ restaurant.address }}</td>
@@ -47,7 +51,11 @@
 <div class="border">
     <div>作成日時: {{ review.created_at }}</div>
     <div>編集日時: {{ review.updated_at }}</div>
-    <div>投稿者: {{ review.user }}</div>
+    {% if review.user.last_name %}
+        <div>投稿者: {{ review.user.last_name }}{{ review.user.first_name }}</div>
+    {% else %}
+        <div>投稿者: {{ review.user }}</div>
+    {% endif %}
     <div>コメント: {{ review.content }}</div>
 
     {% if review.user == request.user %}
@@ -56,6 +64,7 @@
 </div>
 {% endfor %}
 
+{% if is_premium %}
 <h3>レビューフォーム</h3>
 
 <form action="{% url 'new' %}" method="post">
@@ -77,5 +86,6 @@
     <input class="form-control" type="submit" value="予約する">
 
 </form>
+{% endif %}
 
 {% endblock %}
