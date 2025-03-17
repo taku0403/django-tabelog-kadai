@@ -62,6 +62,8 @@
     <a href="{% url 'review_update' review.id %}">編集</a>
     {% endif %}
 </div>
+{% empty %}
+<div>投稿されたレビューはありません。</div>
 {% endfor %}
 
 {% if is_premium %}
