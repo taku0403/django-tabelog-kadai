@@ -84,6 +84,13 @@
     <div class="notify_message notify_message_{{ message.tags }}">
         <div class="notify_message_content">{{ message }}</div>
         <div class="notify_message_delete"><i class="fas fa-times"></i></div>
+        <script>
+        //DjangoMessageFrameWorkの削除機能
+        $(".notify_message_delete").on("click", function(){ $(this).parent(".notify_message").remove(); }); 
+
+        //5秒経ったら自動的に消す
+        setTimeout( function(){ $(".notify_message").remove(); }, "5000");
+        </script>
     </div>
     {% endfor %}
 </div>
