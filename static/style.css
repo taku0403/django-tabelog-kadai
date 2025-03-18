@@ -1,3 +1,48 @@
+
+
+/* message_area------------------------------ */
+.notify_message_area{
+    position:fixed;
+    width:100%;
+    top:0;
+    left:0;
+}
+.notify_message{
+    color:white;
+    padding:1rem;
+    margin:1rem;
+    border-radius:0.5rem;
+
+    display:flex;
+
+    background:deepskyblue;
+}
+.notify_message_success{
+    background:forestgreen;
+}
+.notify_message_error{
+    background:crimson;
+}
+.notify_message_content {
+    width:calc(100% - 2rem);
+    font-size:1.25rem;
+}
+.notify_message_delete {
+    cursor:pointer;
+    width:2rem;
+    transition:0.2s;
+}
+.notify_message_delete i{
+    font-size:1.5rem;
+}
+.notify_message_delete:hover{
+    color:black;
+    transition:0.2s;
+}
+
+
+
+/* allauth 設定 --------------------------------*/
 .allauth_body{
     margin:0;
     position:relative;

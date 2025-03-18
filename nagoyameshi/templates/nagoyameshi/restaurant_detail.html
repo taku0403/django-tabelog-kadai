@@ -78,6 +78,16 @@
 </form>
 
 <h3>予約フォーム</h3>
+{% if messages %}
+<div class="notify_message_area">
+    {% for message in messages %}
+    <div class="notify_message notify_message_{{ message.tags }}">
+        <div class="notify_message_content">{{ message }}</div>
+        <div class="notify_message_delete"><i class="fas fa-times"></i></div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
 <form action="{% url 'reservation' %}" method="post">
     {% csrf_token %}
@@ -88,6 +98,7 @@
     <input class="form-control" type="submit" value="予約する">
 
 </form>
+
 {% endif %}
 
 {% endblock %}

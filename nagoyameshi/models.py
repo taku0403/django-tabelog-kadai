@@ -4,6 +4,8 @@ from django.utils import timezone
 
 from django.urls import reverse
 from cloudinary.models import CloudinaryField
+from django.conf import settings 
+
 
 # 会員
 User = get_user_model()
@@ -26,8 +28,10 @@ class Category(models.Model):
 class Restaurant(models.Model):
     category = models.ForeignKey(Category, verbose_name="カテゴリ", on_delete=models.CASCADE)
     name = models.CharField(verbose_name="名前", max_length=50)
-    # image = models.ImageField(verbose_name="画像", upload_to="media_local/restaurant/")
-    image = CloudinaryField('image')
+    if settings.DEBUG:
+        image = models.ImageField(verbose_name="画像", upload_to="media_local/restaurant/")
+    else:
+        image = CloudinaryField('image')
     description = models.CharField(verbose_name="店舗説明", max_length=500)
     start_at = models.TimeField(verbose_name="営業開始時間", default=timezone.now)
     end_at = models.TimeField(verbose_name="営業終了時間", default=timezone.now)
