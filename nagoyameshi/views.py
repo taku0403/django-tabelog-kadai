@@ -237,24 +237,24 @@ class ReservationCreateView(View):
             # datetime型でも比較が出来る
             if now > cleaned["datetime"]:
                 print("予約指定した時刻が現在よりも過去になっています")
-                messages.info(request, "予約指定した時刻が現在よりも過去になっています")
+                messages.error(request, "予約指定した時刻が現在よりも過去になっています")
                 return redirect("detail", request.POST["restaurant"])
             
             if cleaned["restaurant"].start_at < cleaned["restaurant"].end_at:
                 if cleaned["restaurant"].start_at > cleaned["datetime"].time() or cleaned["datetime"].time() > cleaned["restaurant"].end_at:
                     print("予約指定した時刻が営業時間外です")
-                    messages.info(request, "予約指定した時刻が営業時間外です")
+                    messages.error(request, "予約指定した時刻が営業時間外です")
                     return redirect("detail", request.POST["restaurant"])
             else:
                 if cleaned["restaurant"].end_at < cleaned["datetime"].time() < cleaned["restaurant"].start_at:
                     print("予約指定した時刻が営業時間外です")
-                    messages.info(request, "予約指定した時刻が営業時間外です")
+                    messages.error(request, "予約指定した時刻が営業時間外です")
                     return redirect("detail", request.POST["restaurant"])
             
             # 指定した人数が収容できるか分岐する。
             if cleaned["restaurant"].capacity < cleaned["headcount"]:
                 print("店舗の収容人数を超えています")
-                messages.info(request, "店舗の収容人数を超えています")
+                messages.error(request, "店舗の収容人数を超えています")
                 return redirect("detail", request.POST["restaurant"])
             
             # +-30分で同じ店舗に予約されているか調べる
@@ -269,11 +269,11 @@ class ReservationCreateView(View):
                 data["headcount__sum"] = 0
             if cleaned["restaurant"].capacity < cleaned["headcount"] + data["headcount__sum"]:
                 print("予約できる人数を超過しています")
-                messages.info(request, "予約できる人数を超過しています")
+                messages.error(request, "予約できる人数を超過しています")
                 return redirect("detail", request.POST["restaurant"])
 
             form.save()
-            messages.info(request, "予約完了しました")
+            messages.success(request, '予約完了しました')
         else:
             print(form.errors)
         return redirect("detail", request.POST["restaurant"])
