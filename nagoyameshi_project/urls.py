@@ -32,6 +32,7 @@ urlpatterns = [
     path("detail/new/", views.ReviewCreateView.as_view(), name="new"),
 
     path("review/update/<int:pk>/", views.ReviewUpdateView.as_view(), name="review_update"),
+    path("review/cancel/<int:pk>/", views.ReviewCancelView.as_view(), name="review_cancel"),
 
     path("detail/favorite/", views.FavoriteCreateView.as_view(), name="favorite"),
     path("detail/reservation", views.ReservationCreateView.as_view(), name="reservation"),

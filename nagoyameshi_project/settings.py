@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6*b3k--_lqr1^-uxrtz9teujx_mo1kw1m0dkyc)6mikofr708w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
 # Trueのままではデプロイできない。
 DEBUG = False
@@ -255,12 +255,7 @@ if not DEBUG:
     DATABASES['default'].update(db_from_env)
 
     #cloudinaryの設定
-    CLOUDINARY_STORAGE = { 
-            'CLOUD_NAME': os.environ["CLOUD_NAME"], 
-            'API_KEY'   : os.environ["API_KEY"], 
-            'API_SECRET': os.environ["API_SECRET"],
-            "SECURE"    : True,
-            }
+    CLOUDINARY_URL = os.environ["CLOUDINARY_URL"]
 
     #画像だけ(上限20MB)
     #DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

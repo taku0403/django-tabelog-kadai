@@ -129,6 +129,13 @@ class ReviewUpdateView(UpdateView):
     fields = '__all__'
     template_name_suffix = '_update_form' 
 
+class ReviewCancelView(View):
+    def post(self, request, pk, *args, **kwargs):
+        # レビューの削除
+        review = Review.objects.filter(user=request.user,id=pk)
+        review.delete()
+        return redirect("mypage")
+
 class FavoriteCreateView(View):
     def post(self, request, *args, **kwargs):
 
