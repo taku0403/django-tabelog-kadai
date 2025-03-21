@@ -22,8 +22,8 @@
         <div class="text-end">
             {# 認証済みはログアウト表示 #}
             {% if request.user.is_authenticated %}
-                {% if review.user.last_name %}
-                こんにちは{{ review.user.last_name }}{{ review.user.first_name }}さん
+                {% if request.user.last_name %}
+                こんにちは{{ request.user.last_name }}{{ request.user.first_name }}さん
                 {% else %}
                 こんにちは{{ request.user }}さん<br>
                 {% endif %}
