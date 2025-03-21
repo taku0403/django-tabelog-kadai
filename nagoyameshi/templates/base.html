@@ -14,17 +14,6 @@
 
 </head>
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <div class="notify_message notify_message_{{ message.tags }}">
-        <div class="notify_message_content">{{ message }}</div>
-        <div class="notify_message_delete"><i class="fas fa-times"></i></div>
-    </div>
-    {% endfor %}
-</ul>
-{% endif %}
-
 <body>
     <header>
         <h1 class="bg-primary">
@@ -33,7 +22,11 @@
         <div class="text-end">
             {# 認証済みはログアウト表示 #}
             {% if request.user.is_authenticated %}
-            こんにちは{{ request.user }}さん<br>
+                {% if review.user.last_name %}
+                こんにちは{{ review.user.last_name }}{{ review.user.first_name }}さん
+                {% else %}
+                こんにちは{{ request.user }}さん<br>
+                {% endif %}
             <a href="{% url 'mypage' %}">マイページ</a>
             {% else %}
             <a class="btn btn-success" href="{% url 'account_login' %}">ログイン</a>
@@ -41,6 +34,16 @@
             {% endif %}
         </div>
     </header>
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <div class="notify_message notify_message_{{ message.tags }}">
+        <div class="notify_message_content">{{ message }}</div>
+        <div class="notify_message_delete"><i class="fas fa-times"></i></div>
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
     <div class="container">
         {% block content %}{% endblock %}
     </div>
