@@ -87,6 +87,7 @@ class ReviewCreateView(View):
 
         if not premium_user:
             print("有料会員ではありません。")
+            messages.error('有料会員ではありません')
             return redirect("mypage")
 
 
@@ -95,6 +96,7 @@ class ReviewCreateView(View):
             subscriptions = stripe.Subscription.list(customer=premium_user.premium_code)
         except:
             print("このカスタマーIDは無効です。")
+            messages.error('このカスタマーIDは無効です')
             premium_user.delete()
 
             return redirect("mypage")
@@ -108,6 +110,8 @@ class ReviewCreateView(View):
                 is_premium = True
             else:
                 print("サブスクリプションが無効です。")
+                messages.error('サブスクリプションが無効です')
+
             
         if not is_premium:
             premium_user.delete()
@@ -122,8 +126,10 @@ class ReviewCreateView(View):
         # 投稿されたデータが制約内か検証
         if form.is_valid():
             form.save()
+            messages.success(request, "レビューを投稿しました")
         else:
             print(form.errors)
+            messages.error(request, 'レビューの投稿に失敗しました')
         
         return redirect("detail", request.POST["restaurant"])
 
@@ -137,8 +143,9 @@ class ReviewCancelView(View):
         # レビューの削除
         review = Review.objects.filter(user=request.user,id=pk)
         review.delete()
-        return redirect("mypage")
-
+        messages.success(request, 'レビューを削除しました')
+        return redirect("top")
+    
 class FavoriteCreateView(View):
     def post(self, request, *args, **kwargs):
 
@@ -148,6 +155,7 @@ class FavoriteCreateView(View):
 
         if not premium_user:
             print("有料会員ではありません。")
+            messages.error('有料会員ではありません')
             return redirect("mypage")
 
 
@@ -156,6 +164,7 @@ class FavoriteCreateView(View):
             subscriptions = stripe.Subscription.list(customer=premium_user.premium_code)
         except:
             print("このカスタマーIDは無効です。")
+            messages.error('このカスタマーIDは無効です')
             premium_user.delete()
 
             return redirect("mypage")
@@ -169,6 +178,8 @@ class FavoriteCreateView(View):
                 is_premium = True
             else:
                 print("サブスクリプションが無効です。")
+                messages.error('サブスクリプションが無効です')
+
             
         if not is_premium:
             premium_user.delete()
@@ -180,6 +191,7 @@ class FavoriteCreateView(View):
         favorites = Favorite.objects.filter(user=request.user, restaurant=request.POST["restaurant"])
         if favorites:
             favorites.delete()
+            messages.success(request, 'お気に入り登録を解除しました')
             return redirect("detail", request.POST["restaurant"])
 
         form = FavoriteForm(request.POST)
@@ -199,6 +211,7 @@ class ReservationCreateView(View):
 
         if not premium_user:
             print("有料会員ではありません。")
+            messages.error('有料会員ではありません')
             return redirect("mypage")
 
 
@@ -207,6 +220,7 @@ class ReservationCreateView(View):
             subscriptions = stripe.Subscription.list(customer=premium_user.premium_code)
         except:
             print("このカスタマーIDは無効です。")
+            messages.error('このカスタマーIDは無効です')
             premium_user.delete()
 
             return redirect("mypage")
@@ -220,6 +234,7 @@ class ReservationCreateView(View):
                 is_premium = True
             else:
                 print("サブスクリプションが無効です。")
+                messages.error('サブスクリプションが無効です')
             
         if not is_premium:
             premium_user.delete()
@@ -297,8 +312,10 @@ class MypageUpdateView(View):
         form = UserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, '編集を完了しました')
         else:
             print(form.error)
+            messages.error(request, '編集に失敗しました')
         
         return redirect("mypage")
 
@@ -330,7 +347,8 @@ class ReservationCancelView(View):
 
         # TODO: 必要があればif文で更に絞り込み(例:予約キャンセル不可の時間になった場合はキャンセルしない。)
         reservation.delete()
-        return redirect("mypage")
+        messages.success(request, '予約をキャンセルしました')
+        return redirect("reservation_list")
 
 # サブスク登録はログイン済みのユーザーだけ
 from django.contrib.auth.mixins import LoginRequiredMixin

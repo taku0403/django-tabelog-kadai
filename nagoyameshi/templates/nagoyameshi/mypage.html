@@ -5,7 +5,7 @@
 <h1>マイページ</h1>
 
 <div>会員登録情報</div>
-{{ request.user.last_name }}{{ request.user.first_name }}
+<div class="user_name">{{ request.user.last_name }}{{ request.user.first_name }}</div>
 <a href="{% url 'mypage_update' %}">ユーザー情報変更</a>
 {% if is_premium %}
 <a href="{% url 'favorite_list' %}"><div>お気に入り一覧</div></a>

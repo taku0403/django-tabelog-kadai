@@ -1,4 +1,6 @@
-
+.user_name div{
+    font-size:2rem;
+}
 
 /* message_area------------------------------ */
 .notify_message_area{
@@ -18,10 +20,10 @@
     background:deepskyblue;
 }
 .notify_message_success{
-    background:forestgreen;
+    background:rgb(123, 228, 123);
 }
 .notify_message_error{
-    background:crimson;
+    background:rgb(248, 56, 94);
 }
 .notify_message_content {
     width:calc(100% - 2rem);
